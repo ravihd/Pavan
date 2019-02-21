@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workspace</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="container">
+  <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key.to_sym) %>">
+        <%= value %>
+      </div>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><%= link_to "Edit Profile", edit_user_registration_path %></li>
+          <li><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+          <li>
+            <% if current_user.avatar.present? %>
+              <li class="round-image-50"><%= image_tag(current_user.avatar.url(:thumb)) %></li>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  <% end %>
+  <%= yield %>
+</div>
+</body>
+</html>
